@@ -1,0 +1,13 @@
+{
+  "TableName": "master-image-label-table",
+  "KeySchema": [
+    { "AttributeName": "imageID", "KeyType": "HASH" }
+  ],
+  "AttributeDefinitions": [
+    { "AttributeName": "imageID", "AttributeType": "S" }
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 5,
+    "WriteCapacityUnits": 5
+  }
+}

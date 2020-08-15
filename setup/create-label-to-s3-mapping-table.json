@@ -1,0 +1,13 @@
+{
+  "TableName": "label-to-s3-mapping-table",
+  "KeySchema": [
+    { "AttributeName": "label", "KeyType": "HASH" }
+  ],
+  "AttributeDefinitions": [
+    { "AttributeName": "label", "AttributeType": "S" }
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 5,
+    "WriteCapacityUnits": 5
+  }
+}
