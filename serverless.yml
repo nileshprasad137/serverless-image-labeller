@@ -1,0 +1,59 @@
+
+service: serverless-image-labelling
+
+plugins:
+  - serverless-python-requirements
+
+provider:
+  name: aws
+  logs:
+    restApi: true
+  runtime: python3.7
+  stage: dev
+  region: us-east-1
+  environment:
+    LABEL_TO_S3_MAPPING_DB: 'label-to-s3-mapping-db'
+    MASTER_IMAGE_DB: 'master-image-db'
+    SERVERLESS_IMAGE_LABELLING_BUCKET: 'serverless-image-labelling-bucket'
+    REGION_NAME: 'us-east-1'
+
+  apiGateway:
+    binaryMediaTypes:
+      - '*/*'
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: "arn:aws:s3:::${self:provider.environment.SERVERLESS_IMAGE_LABELLING_BUCKET}/*"
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.LABEL_TO_S3_MAPPING_DB}"
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.MASTER_IMAGE_DB}"
+    - Effect: "Allow"
+      Action:
+        - "rekognition:*"
+      Resource: "*"
+
+functions:
+  handleFaceSignup:
+    handler: handlers/handler.labelOnS3Upload
+    events:
+      - s3:
+          bucket: ${self:provider.environment.SERVERLESS_IMAGE_LABELLING_BUCKET}
+          event: s3:ObjectCreated:*
+          existing: true
