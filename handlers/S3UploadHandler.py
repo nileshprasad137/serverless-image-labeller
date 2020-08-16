@@ -21,7 +21,7 @@ def labelOnS3Upload(event, context):
 
         for label in response['Labels']:
             print ("Label: " + label['Name'])
-            imageLabels.append(label["Name"])
+            imageLabels.append(label["Name"].lower())
 
     # Add to DynamoDB
     dynamodb = boto3.resource('dynamodb', region_name=region_name)
