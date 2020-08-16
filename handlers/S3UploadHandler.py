@@ -3,9 +3,7 @@ import boto3
 import os
 import uuid
 
-
 def labelOnS3Upload(event, context):
-    print (context)
     bucket = os.environ['SERVERLESS_IMAGE_LABELLING_BUCKET']
     region_name = os.environ['REGION_NAME']
 
@@ -72,13 +70,11 @@ def addImageDataToMasterTable(dynamodb, imageID, fileName, labels):
 
 def addToLabelMappingTable(dynamodb, imageID, fileName, imageLabels):
     labelToS3MappingTable = dynamodb.Table(os.environ['LABEL_TO_S3_MAPPING_TABLE'])
-
     labelResponses = []
     imageIDSet = set()
     imageIDSet.add(imageID)
 
     for label in imageLabels:
-
         addLabelResponse = labelToS3MappingTable.update_item(
             Key={'label': label},
             UpdateExpression="ADD imageIDs :imageID",

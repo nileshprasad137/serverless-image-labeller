@@ -53,3 +53,10 @@ functions:
           bucket: ${self:provider.environment.SERVERLESS_IMAGE_LABELLING_BUCKET}
           event: s3:ObjectCreated:*
           existing: true
+  getImagesByLabel:
+    handler: handlers/getImagesByLabelHandler.getImagesByLabel
+    events:
+      - http:
+          path: getImagesByLabel
+          method: post
+          cors: true
