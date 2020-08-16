@@ -30,7 +30,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.LABEL_TO_S3_MAPPING_DB}"
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.LABEL_TO_S3_MAPPING_TABLE}"
     - Effect: Allow
       Action:
         - dynamodb:Query
@@ -39,7 +39,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.MASTER_IMAGE_DB}"
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.MASTER_IMAGE_TABLE}"
     - Effect: "Allow"
       Action:
         - "rekognition:*"

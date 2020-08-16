@@ -32,11 +32,11 @@ def labelOnS3Upload(event, context):
     # Add to DynamoDB
     dynamodb = boto3.resource('dynamodb', region_name=region_name)
     imageID = uuid.uuid1()
-    addImageDataToMasterTableResponse = addImageDataToMasterTable(dynamodb=dynamodb, imageID=imageID, fileName=fileName,
+    addImageDataToMasterTableResponse = addImageDataToMasterTable(dynamodb=dynamodb, imageID=str(imageID), fileName=fileName,
                                                                   labels=imageLabels)
     print(json.dumps(addImageDataToMasterTableResponse))
-    addToLabelMappingTableResponse = addToLabelMappingTable(dynamodb=dynamodb, imageID=imageID, fileName=fileName,
-                                                                  labels=imageLabels)
+    addToLabelMappingTableResponse = addToLabelMappingTable(dynamodb=dynamodb, imageID=str(imageID), fileName=fileName,
+                                                            imageLabels=imageLabels)
     print(json.dumps(addToLabelMappingTableResponse))
 
     finalResponse = {
@@ -72,28 +72,27 @@ def addImageDataToMasterTable(dynamodb, imageID, fileName, labels):
 def addToLabelMappingTable(dynamodb, imageID, fileName, imageLabels):
     labelToS3MappingTable = dynamodb.Table(os.environ['LABEL_TO_S3_MAPPING_TABLE'])
 
-    item = {
-        'label': label,
-        's3ImageFileNames': filename
+    labelResponses = []
+    imageIDSet = set()
+    imageIDSet.add(imageID)
 
+    for label in imageLabels:
+
+        addLabelResponse = labelToS3MappingTable.update_item(
+            Key={'label': label},
+            UpdateExpression="ADD imageIDs :imageID",
+            ExpressionAttributeValues={":imageID":imageIDSet}
+        )
+        print (json.dumps(addLabelResponse))
+        labelResponses.append(addLabelResponse)
+
+    labelToS3MappingTableResponse = {
+        "labelResponses": labelResponses
     }
-
-    # add to LABEL_TO_S3_MAPPING_TABLE
-    labelToS3MappingTable.put_item(Item=item)
-    # Use this code if you don't use the http event with the LAMBDA-PROXY
-    # integration
-    """
-    return {
-        "message": "Go Serverless v1.0! Your function executed successfully!",
-        "event": event
-    }
-    """
-    print("image data added to labelToS3MappingTable")
-
     # create a response
     response = {
         "statusCode": 200,
-        "body": json.dumps(item)
+        "body": json.dumps(labelToS3MappingTableResponse)
     }
 
     return response
