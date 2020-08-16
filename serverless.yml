@@ -12,8 +12,8 @@ provider:
   stage: dev
   region: us-east-1
   environment:
-    LABEL_TO_S3_MAPPING_DB: 'label-to-s3-mapping-table'
-    MASTER_IMAGE_DB: 'master-image-label-table'
+    LABEL_TO_S3_MAPPING_TABLE: 'label-to-s3-mapping-table'
+    MASTER_IMAGE_TABLE: 'master-image-label-table'
     SERVERLESS_IMAGE_LABELLING_BUCKET: 'serverless-image-labelling-bucket'
     REGION_NAME: 'us-east-1'
 
