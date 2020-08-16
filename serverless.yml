@@ -17,10 +17,6 @@ provider:
     SERVERLESS_IMAGE_LABELLING_BUCKET: 'serverless-image-labelling-bucket'
     REGION_NAME: 'us-east-1'
 
-  apiGateway:
-    binaryMediaTypes:
-      - '*/*'
-
   iamRoleStatements:
     - Effect: Allow
       Action:
