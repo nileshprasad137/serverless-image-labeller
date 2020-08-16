@@ -46,7 +46,7 @@ provider:
       Resource: "*"
 
 functions:
-  handleFaceSignup:
+  labelOnS3Upload:
     handler: handlers/handler.labelOnS3Upload
     events:
       - s3:
