@@ -47,7 +47,7 @@ provider:
 
 functions:
   labelOnS3Upload:
-    handler: handlers/handler.labelOnS3Upload
+    handler: handlers/S3UploadHandler.labelOnS3Upload
     events:
       - s3:
           bucket: ${self:provider.environment.SERVERLESS_IMAGE_LABELLING_BUCKET}

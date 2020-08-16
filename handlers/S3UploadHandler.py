@@ -5,11 +5,7 @@ import uuid
 
 
 def labelOnS3Upload(event, context):
-    body = {
-        "message": "Go Serverless v1.0! Your function executed successfully!",
-        "input": event
-    }
-
+    print (context)
     bucket = os.environ['SERVERLESS_IMAGE_LABELLING_BUCKET']
     region_name = os.environ['REGION_NAME']
 
@@ -39,9 +35,14 @@ def labelOnS3Upload(event, context):
                                                             imageLabels=imageLabels)
     print(json.dumps(addToLabelMappingTableResponse))
 
+    s3HandlerResponseBody = {
+        "addImageDataToMasterTableResponse": addToLabelMappingTableResponse,
+        "addToLabelMappingTableResponse": addToLabelMappingTableResponse
+    }
+
     finalResponse = {
         "statusCode": 200,
-        "body": json.dumps(body)
+        "body": json.dumps(s3HandlerResponseBody)
     }
     print(finalResponse)
     return finalResponse
@@ -89,10 +90,5 @@ def addToLabelMappingTable(dynamodb, imageID, fileName, imageLabels):
     labelToS3MappingTableResponse = {
         "labelResponses": labelResponses
     }
-    # create a response
-    response = {
-        "statusCode": 200,
-        "body": json.dumps(labelToS3MappingTableResponse)
-    }
 
-    return response
+    return labelToS3MappingTableResponse
