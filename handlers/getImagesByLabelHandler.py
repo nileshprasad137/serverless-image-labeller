@@ -15,10 +15,18 @@ def getImagesByLabel(event, context):
     imageSet = set(imageIDResponse["Item"]["imageIDs"])
     print (imageSet)
 
+    results = []
+    for image in imageSet:
+        result = getImageDetails(dynamodb=dynamodb,imageID=image)["Item"]
+        results.append(result)
+
+    imageDetailResponse = {
+        "Images" : results
+    }
 
     response = {
         "statusCode": 200,
-        "body": json.dumps(requestBody)
+        "body": json.dumps(imageDetailResponse)
     }
 
     print(response)
@@ -38,7 +46,7 @@ def getImageID(dynamodb, requestLabel):
 def getImageDetails(dynamodb, imageID):
     masterImageTable = dynamodb.Table(os.environ['MASTER_IMAGE_TABLE'])
 
-    imageData = customerMasterTable.get_item(
+    imageData = masterImageTable.get_item(
         Key={
             'imageID': imageID
         }
