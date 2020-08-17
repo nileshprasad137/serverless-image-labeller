@@ -29,7 +29,6 @@ def getImagesByLabel(event, context):
         "body": json.dumps(imageDetailResponse)
     }
 
-    print(response)
     return response
 
 def getImageID(dynamodb, requestLabel):
