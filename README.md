@@ -1,6 +1,6 @@
 #### Serverless Image Labelling
 
-<img src="https://user-images.githubusercontent.com/16336390/90423106-87daa600-e0d9-11ea-975c-a8329cd25db3.png" width="600" height="500" />
+<img src="https://user-images.githubusercontent.com/16336390/90423966-fb30e780-e0da-11ea-8adf-01124ca0bfc3.png" width="600" height="500" />
 
 ```
 
