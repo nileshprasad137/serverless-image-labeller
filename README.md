@@ -38,6 +38,6 @@ Example,
       -H 'cache-control: no-cache' \
       -d '{"label":"Furniture"}'
       
-####### Featured as community example for Serverless framework.
+###### Featured as community example for Serverless framework.
 
 
