@@ -1,6 +1,8 @@
 
 #### Serverless Image Labelling
 
+###### Featured as community example for Serverless framework at [serverless/examples](https://github.com/serverless/examples)
+
 <img src="https://user-images.githubusercontent.com/16336390/90423966-fb30e780-e0da-11ea-8adf-01124ca0bfc3.png" width="600" height="500" />
 
 #### Use-Cases
@@ -38,6 +40,6 @@ Example,
       -H 'cache-control: no-cache' \
       -d '{"label":"Furniture"}'
       
-###### Featured as community example for Serverless framework.
+
 
 
