@@ -37,4 +37,7 @@ Example,
       -H 'Postman-Token: f769a23f-d285-4aba-9fc1-f3d8dd4b9f33' \
       -H 'cache-control: no-cache' \
       -d '{"label":"Furniture"}'
+      
+####### Featured as community example for Serverless framework.
+
 
